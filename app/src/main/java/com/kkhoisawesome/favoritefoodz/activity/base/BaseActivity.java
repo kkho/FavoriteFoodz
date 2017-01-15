@@ -1,10 +1,12 @@
-package com.kkhoisawesome.favoritefoodz;
+package com.kkhoisawesome.favoritefoodz.activity.base;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,9 +14,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-public class MainActivity extends AppCompatActivity
+import com.kkhoisawesome.favoritefoodz.R;
+
+/**
+ * Created by kkho on 14.01.2017.
+ */
+
+public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private Fragment mFragment;
+    public static final String ARG_URI = "_uri";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +51,22 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (savedInstanceState == null) {
+            mFragment = onCreatePane();
+            mFragment.setArguments(intentToFragmentArguments(getIntent()));
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.root_container, mFragment, "single_pane")
+                    .commit();
+        } else {
+            mFragment = getSupportFragmentManager().findFragmentByTag("single_pane");
+        }
+    }
+
+    protected abstract Fragment onCreatePane();
+
+    public Fragment getFragment() {
+        return mFragment;
     }
 
     @Override
@@ -97,5 +124,39 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public static Bundle intentToFragmentArguments(Intent intent) {
+        Bundle arguments = new Bundle();
+        if (intent == null) {
+            return arguments;
+        }
+
+        final Uri data = intent.getData();
+        if (data != null) {
+            arguments.putParcelable(ARG_URI, data);
+        }
+
+        final Bundle extras = intent.getExtras();
+        if (extras != null) {
+            arguments.putAll(intent.getExtras());
+        }
+        return arguments;
+    }
+
+    public static Intent fragmentArgumentToIntent(Bundle arguments) {
+        Intent intent = new Intent();
+        if (arguments == null) {
+            return intent;
+        }
+
+        final Uri data = arguments.getParcelable(ARG_URI);
+        if (data != null) {
+            intent.setData(data);
+        }
+
+        intent.putExtras(arguments);
+        intent.removeExtra(ARG_URI);
+        return intent;
     }
 }
