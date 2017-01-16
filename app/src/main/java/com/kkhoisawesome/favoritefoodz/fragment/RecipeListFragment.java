@@ -25,10 +25,9 @@ import java.util.ArrayList;
 
 public class RecipeListFragment extends Fragment {
     private RecyclerView mRecyclerView;
-    private ArrayList<Recipe> mRecipeList;
     private DatabaseReference mDatabase;
     private LinearLayoutManager mManager;
-    private FirebaseRecyclerAdapter<Recipe, RecipeViewHolder> mAdapter;
+    private RecipeAdapter mRecipeAdapter;
 
 
     public RecipeListFragment() {
@@ -56,5 +55,8 @@ public class RecipeListFragment extends Fragment {
         mManager.setReverseLayout(true);
         mManager.setStackFromEnd(true);
         mRecyclerView.setLayoutManager(mManager);
+
+
+
     }
 }
