@@ -16,10 +16,11 @@ import android.view.MenuItem;
 
 import com.kkhoisawesome.favoritefoodz.R;
 import com.kkhoisawesome.favoritefoodz.activity.base.BaseActivity;
+import com.kkhoisawesome.favoritefoodz.fragment.MainFragment;
 
 public class MainActivity extends BaseActivity {
     @Override
     protected Fragment onCreatePane() {
-        return null;
+        return new MainFragment();
     }
 }
