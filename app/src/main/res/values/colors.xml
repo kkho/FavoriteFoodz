@@ -8,6 +8,8 @@
     <color name="bg_dark_transparent">#CC000000</color>
     <color name="bg_medium_transparent">#AA000000</color>
     <color name="bg_light_transparent">#15000000</color>
+    <color name="background_grey">#dcdcdc</color>
+
 
     <color name="text_main">#333333</color>
     <color name="text_secondary">#727272</color>

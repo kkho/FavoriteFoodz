@@ -10,11 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kkhoisawesome.favoritefoodz.R;
 import com.kkhoisawesome.favoritefoodz.adapter.RecipeAdapter;
 import com.kkhoisawesome.favoritefoodz.framework.model.Recipe;
+import com.kkhoisawesome.favoritefoodz.util.ImageLoader;
 import com.kkhoisawesome.favoritefoodz.viewholder.RecipeViewHolder;
 
 import java.util.ArrayList;
@@ -29,21 +31,27 @@ public class RecipeListFragment extends Fragment {
     private LinearLayoutManager mManager;
     private RecipeAdapter mRecipeAdapter;
 
+    private ImageLoader mImageLoader;
+
 
     public RecipeListFragment() {
 
     }
 
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference("favoritefoodz").child("recipes");
         View rootView = inflater.inflate(R.layout.fragment_recipelist, container, false);
         mRecyclerView = (RecyclerView)rootView.findViewById(R.id.general_recyclerview);
         mRecyclerView.setHasFixedSize(true);
+
         return rootView;
     }
 
@@ -55,8 +63,16 @@ public class RecipeListFragment extends Fragment {
         mManager.setReverseLayout(true);
         mManager.setStackFromEnd(true);
         mRecyclerView.setLayoutManager(mManager);
+        mImageLoader = new ImageLoader(getActivity(), R.drawable.io_logo);
+        mRecipeAdapter = new RecipeAdapter(getActivity(), mDatabase, mImageLoader);
+        mRecyclerView.setAdapter(mRecipeAdapter);
 
+    }
 
-
+    @Override
+    public void onStop() {
+        super.onStop();
+        // Clean up comments listener
+        mRecipeAdapter.cleanupListener();
     }
 }

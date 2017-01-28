@@ -5,4 +5,12 @@ package com.kkhoisawesome.favoritefoodz.framework.model;
  */
 
 public class Recipe {
+    public String f2f_url;
+    public String image_url;
+    public String publisher;
+    public String publisher_url;
+    public String recipe_id;
+    public String social_rank;
+    public String source_url;
+    public String title;
 }

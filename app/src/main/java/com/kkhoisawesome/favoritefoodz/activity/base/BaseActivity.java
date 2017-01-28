@@ -1,5 +1,6 @@
 package com.kkhoisawesome.favoritefoodz.activity.base;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -13,7 +14,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crash.FirebaseCrash;
 import com.kkhoisawesome.favoritefoodz.R;
+import com.kkhoisawesome.favoritefoodz.activity.RecipeListActivity;
+import com.kkhoisawesome.favoritefoodz.util.AnalyticsBundler;
 
 /**
  * Created by kkho on 14.01.2017.
@@ -27,6 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected static final int NAVVIEW_ITEM_ADD = 1;
 
     protected static final int NAVVIEW_ITEM_INVALID = -1;
+    protected static FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_base);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        FirebaseCrash.log("Activity created");
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
@@ -48,6 +56,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
                         switch (item.getItemId()) {
                             case R.id.action_list:
+                                Bundle bundle = AnalyticsBundler.BundleAnalyticsEvent("0","RecipeFragment" ,"Go to recipelist", "bottomnavview");
+                                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                                GoToActivity(RecipeListActivity.class);
                                 break;
                             case R.id.action_add:
 
@@ -66,6 +77,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         } else {
             mFragment = getSupportFragmentManager().findFragmentByTag("single_pane");
         }
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+    }
+
+    private void GoToActivity(Class c) {
+        createBackStack(new Intent(this, c));
     }
 
     private void createBackStack(Intent intent) {
