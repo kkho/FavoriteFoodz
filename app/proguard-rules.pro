@@ -34,3 +34,6 @@
 -keep class butterknife.*
 -keepclasseswithmembernames class * { @butterknife.* <methods>; }
 -keepclasseswithmembernames class * { @butterknife.* <fields>; }
+
+-keepattributes Signature
+-keepattributes *Annotation*

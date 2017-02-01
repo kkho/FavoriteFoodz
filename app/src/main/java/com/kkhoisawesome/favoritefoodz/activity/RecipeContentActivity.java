@@ -14,9 +14,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebView;
+import android.widget.ImageView;
 
+import com.google.gson.Gson;
 import com.kkhoisawesome.favoritefoodz.R;
 import com.kkhoisawesome.favoritefoodz.activity.base.BaseActivity;
+import com.kkhoisawesome.favoritefoodz.framework.model.Recipe;
+import com.kkhoisawesome.favoritefoodz.util.ImageLoader;
 
 /**
  * Created by kkho on 14.01.2017.
@@ -24,75 +29,41 @@ import com.kkhoisawesome.favoritefoodz.activity.base.BaseActivity;
 
 public class RecipeContentActivity extends AppCompatActivity {
     private Fragment mFragment;
-    public static final String ARG_URI = "_uri";
-
-    protected static final int NAVVIEW_ITEM_LIST = 0;
-    protected static final int NAVVIEW_ITEM_ADD = 1;
-
-    protected static final int NAVVIEW_ITEM_INVALID = -1;
+    private Toolbar mToolbar;
+    private ImageView mImageView;
+    private ImageLoader mImageLoader;
+    private Recipe mRecipe;
+    private WebView mWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_content);
+        mRecipe = new Gson().fromJson(this.getIntent().getStringExtra("RecipeContent"), Recipe.class);
 
         CollapsingToolbarLayout collapsingToolbarLayout =
                 (CollapsingToolbarLayout) findViewById(R.id.main_collapsing);
-
-        /*
-
-        if (savedInstanceState == null) {
-            mFragment.setArguments(intentToFragmentArguments(getIntent()));
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.root_container, mFragment, "single_pane")
-                    .commit();
-        } else {
-            mFragment = getSupportFragmentManager().findFragmentByTag("single_pane");
-        } */
+        mImageView = (ImageView) findViewById(R.id.main_backdrop);
+        mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(mToolbar);
+        mImageLoader = new ImageLoader(this, R.drawable.ic_menu_gallery);
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.CollapsedAppBar);
+        mWebView = (WebView) findViewById(R.id.webview);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
-    private void createBackStack(Intent intent) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            TaskStackBuilder builder = TaskStackBuilder.create(this);
-            builder.addNextIntentWithParentStack(intent);
-            builder.startActivities();
-        } else {
-            startActivity(intent);
-            finish();
-        }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        reloadRecipeInformation();
     }
 
-    public static Bundle intentToFragmentArguments(Intent intent) {
-        Bundle arguments = new Bundle();
-        if (intent == null) {
-            return arguments;
-        }
-
-        final Uri data = intent.getData();
-        if (data != null) {
-            arguments.putParcelable(ARG_URI, data);
-        }
-
-        final Bundle extras = intent.getExtras();
-        if (extras != null) {
-            arguments.putAll(intent.getExtras());
-        }
-        return arguments;
-    }
-
-    public static Intent fragmentArgumentToIntent(Bundle arguments) {
-        Intent intent = new Intent();
-        if (arguments == null) {
-            return intent;
-        }
-
-        final Uri data = arguments.getParcelable(ARG_URI);
-        if (data != null) {
-            intent.setData(data);
-        }
-
-        intent.putExtras(arguments);
-        intent.removeExtra(ARG_URI);
-        return intent;
+    private void reloadRecipeInformation() {
+        mImageLoader.loadImage(mRecipe.image_url, mImageView);
+        mToolbar.setTitle(mRecipe.title);
+        mWebView.getSettings().setLoadsImagesAutomatically(true);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.loadUrl(mRecipe.source_url);
     }
 }

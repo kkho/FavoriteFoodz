@@ -81,8 +81,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
 
         ref.addChildEventListener(childEventListener);
         mChildEventListener = childEventListener;
-
-
     }
 
     public void setRecipeList(ArrayList<Recipe> recipes) {
@@ -103,7 +101,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
         final Recipe recipe = mRecipeList.get(position);
         mImageLoader.loadImage(recipe.image_url, holder.vRecipeImage);
         holder.vTitleText.setText(recipe.title);
-
+        holder.vRecipeObject = recipe;
     }
 
     @Override
