@@ -6,8 +6,9 @@ You can use it as much as you can.
 
 Login information:
 
-dummy@dummy.com
-Food_2017.
+- dummy@dummy.com
+
+- Food_2017.
 
 
 
