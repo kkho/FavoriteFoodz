@@ -6,9 +6,9 @@ You can use it as much as you can.
 
 Login information:
 
-- dummy@dummy.com
+- Username: dummy@dummy.com
 
-- Food_2017.
+- Password: Food_2017.
 
 
 
