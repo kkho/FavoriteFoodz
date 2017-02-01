@@ -13,11 +13,13 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.kkhoisawesome.favoritefoodz.R;
 import com.kkhoisawesome.favoritefoodz.framework.model.Recipe;
 import com.kkhoisawesome.favoritefoodz.util.ImageLoader;
 import com.kkhoisawesome.favoritefoodz.viewholder.RecipeViewHolder;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -43,66 +45,30 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
                 Log.d(TAG, "onChildAdded:" + dataSnapshot.getKey());
-                Recipe recipe = dataSnapshot.getValue(Recipe.class);
-
-
+                GenericTypeIndicator<ArrayList<Recipe>> t = new GenericTypeIndicator<ArrayList<Recipe>>() {};
+                ArrayList<Recipe> recipes = dataSnapshot.getValue(t);
+                setRecipeList(recipes);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
                 Log.d(TAG, "onChildChanged:" + dataSnapshot.getKey());
-
-/*
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so displayed the changed comment.
-                Comment newComment = dataSnapshot.getValue(Comment.class);
-                String commentKey = dataSnapshot.getKey();
-
-                // [START_EXCLUDE]
-                int commentIndex = mCommentIds.indexOf(commentKey);
-                if (commentIndex > -1) {
-                    // Replace with the new data
-                    mComments.set(commentIndex, newComment);
-
-                    // Update the RecyclerView
-                    notifyItemChanged(commentIndex);
-                } else {
-                    Log.w(TAG, "onChildChanged:unknown_child:" + commentKey);
-                }
-                // [END_EXCLUDE] */
+                GenericTypeIndicator<ArrayList<Recipe>> t = new GenericTypeIndicator<ArrayList<Recipe>>() {};
+                ArrayList<Recipe> recipes = dataSnapshot.getValue(t);
+                setRecipeList(recipes);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 Log.d(TAG, "onChildRemoved:" + dataSnapshot.getKey());
-
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so remove it.
-                String commentKey = dataSnapshot.getKey();
-                /*
-                int commentIndex = mCommentIds.
-                        /*indexOf(commentKey);
-                if (commentIndex > -1) {
-                    // Remove data from the list
-                    mCommentIds.remove(commentIndex);
-                    mComments.remove(commentIndex);
-
-                    // Update the RecyclerView
-                    notifyItemRemoved(commentIndex);
-                } else {
-                    Log.w(TAG, "onChildRemoved:unknown_child:" + commentKey);
-                }
-                // [END_EXCLUDE] */
+                GenericTypeIndicator<ArrayList<Recipe>> t = new GenericTypeIndicator<ArrayList<Recipe>>() {};
+                ArrayList<Recipe> recipes = dataSnapshot.getValue(t);
+                setRecipeList(recipes);
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
                 Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
-
-                // A comment has changed position, use the key to determine if we are
-                // displaying this comment and if so move it.
-
-                // ...
             }
 
             @Override
@@ -117,6 +83,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
         mChildEventListener = childEventListener;
 
 
+    }
+
+    public void setRecipeList(ArrayList<Recipe> recipes) {
+        mRecipeList = recipes;
+        notifyDataSetChanged();
     }
 
 

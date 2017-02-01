@@ -28,8 +28,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     private Fragment mFragment;
     public static final String ARG_URI = "_uri";
 
-    protected static final int NAVVIEW_ITEM_LIST = 0;
-    protected static final int NAVVIEW_ITEM_ADD = 1;
+    protected static final int NAVVIEW_ITEM_LIST = R.id.action_list;
+    protected static final int NAVVIEW_ITEM_ADD = R.id.action_add;
 
     protected static final int NAVVIEW_ITEM_INVALID = -1;
     protected static FirebaseAnalytics mFirebaseAnalytics;
@@ -105,29 +105,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     public Fragment getFragment() {
         return mFragment;
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
     public static Bundle intentToFragmentArguments(Intent intent) {
         Bundle arguments = new Bundle();

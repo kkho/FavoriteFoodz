@@ -10,7 +10,7 @@ public class Recipe {
     public String publisher;
     public String publisher_url;
     public String recipe_id;
-    public String social_rank;
+    public double social_rank;
     public String source_url;
     public String title;
 }
