@@ -2,6 +2,7 @@ package com.kkhoisawesome.favoritefoodz.activity;
 
 import android.support.v4.app.Fragment;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.kkhoisawesome.favoritefoodz.activity.base.BaseActivity;
 import com.kkhoisawesome.favoritefoodz.fragment.RecipeListFragment;
 
@@ -12,7 +13,10 @@ import com.kkhoisawesome.favoritefoodz.fragment.RecipeListFragment;
 public class RecipeListActivity extends BaseActivity {
 
     public RecipeListActivity() {
+    }
 
+    public FirebaseAnalytics getFirebaseAnalytics() {
+        return mFirebaseAnalytics;
     }
 
     @Override
