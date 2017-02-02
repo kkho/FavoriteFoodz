@@ -35,6 +35,7 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View view) {
                 Bundle bundle = AnalyticsBundler.BundleAnalyticsEvent(vRecipeObject.recipe_id,vRecipeObject.title ,vRecipeObject.title, null);
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                 mFirebaseAnalytics.setUserProperty("RECIPE_PICKED", vRecipeObject.title);
                 Intent intent = new Intent(view.getContext(), RecipeContentActivity.class);
                 intent.putExtra("RecipeContent", new Gson().toJson(vRecipeObject));
