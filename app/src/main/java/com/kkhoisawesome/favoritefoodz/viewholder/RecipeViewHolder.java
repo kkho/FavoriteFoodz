@@ -29,6 +29,7 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         vRecipeImage = (ImageView)itemView.findViewById(R.id.recipe_image);
         vTitleText = (TextView) itemView.findViewById(R.id.recipe_title);
+        mFirebaseAnalytics = firebaseAnalytics;
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

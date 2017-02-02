@@ -16,6 +16,13 @@ public class RecipeListActivity extends BaseActivity {
     }
 
     public FirebaseAnalytics getFirebaseAnalytics() {
+        if(mFirebaseAnalytics == null) {
+            mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+            //Set whether analytics collection is enabled for this app on this device.
+            mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+            mFirebaseAnalytics.setMinimumSessionDuration(2000);
+            mFirebaseAnalytics.setSessionTimeoutDuration(300000);
+        }
         return mFirebaseAnalytics;
     }
 
