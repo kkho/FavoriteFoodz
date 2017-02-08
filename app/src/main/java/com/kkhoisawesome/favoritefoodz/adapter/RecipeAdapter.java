@@ -88,7 +88,18 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
 
     public void setRecipeList(ArrayList<Recipe> recipes) {
         mRecipeList.clear();
-        mRecipeList.addAll(recipes);
+        int position = 0;
+        for(int i = 0; i < recipes.size(); i++) {
+            Recipe getRecipe = recipes.get(position);
+            if(getRecipe == null) {
+                position++;
+                continue;
+            }
+
+            mRecipeList.add(getRecipe);
+
+            position++;
+        }
         notifyDataSetChanged();
     }
 
