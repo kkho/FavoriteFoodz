@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,9 +36,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
     private ArrayList<Recipe> mRecipeList = new ArrayList<>();
     private ArrayList<String> mRecipeIds = new ArrayList<>();
     private static final String TAG = "RecipeAdapter";
+    private FirebaseAnalytics mFirebaseAnalytics;
 
-    public RecipeAdapter(final Context context, DatabaseReference ref, @NonNull ImageLoader imageLoader) {
+    public RecipeAdapter(final Context context, FirebaseAnalytics firebaseAnalytics,  DatabaseReference ref, @NonNull ImageLoader imageLoader) {
         mContext = context;
+        mFirebaseAnalytics = firebaseAnalytics;
         mDatabaseReference = ref;
         mImageLoader = imageLoader;
 
@@ -94,7 +97,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
     public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.card_recipeitem, parent, false);
-        return new RecipeViewHolder(view);
+        return new RecipeViewHolder(view, mFirebaseAnalytics);
     }
 
     @Override

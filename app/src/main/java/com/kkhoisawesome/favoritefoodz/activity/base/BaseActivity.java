@@ -79,6 +79,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        //Set whether analytics collection is enabled for this app on this device.
+        mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+        mFirebaseAnalytics.setMinimumSessionDuration(2000);
+        mFirebaseAnalytics.setSessionTimeoutDuration(300000);
     }
 
     private void GoToActivity(Class c) {

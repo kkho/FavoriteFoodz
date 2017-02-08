@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.kkhoisawesome.favoritefoodz.R;
+import com.kkhoisawesome.favoritefoodz.activity.RecipeListActivity;
 import com.kkhoisawesome.favoritefoodz.adapter.RecipeAdapter;
 import com.kkhoisawesome.favoritefoodz.framework.model.Recipe;
 import com.kkhoisawesome.favoritefoodz.util.ImageLoader;
@@ -96,7 +97,8 @@ public class RecipeListFragment extends Fragment {
         mManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mManager);
         mImageLoader = new ImageLoader(getActivity(), R.drawable.io_logo);
-        mRecipeAdapter = new RecipeAdapter(getActivity(), mDatabase, mImageLoader);
+        RecipeListActivity activity = (RecipeListActivity)getActivity();
+        mRecipeAdapter = new RecipeAdapter(activity,activity.getFirebaseAnalytics(), mDatabase, mImageLoader);
         mRecyclerView.setAdapter(mRecipeAdapter);
 
     }
